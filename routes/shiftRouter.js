@@ -19,12 +19,13 @@ shiftRouter
     // post -------------------------------------
     .post('/new', async (req, res, next) => {
         try {
-            const user = User.findById(req.body.userId)
+            const user = await User.findById(req.body.assignedBy._id)
+            console.log(user)
             if(user.isAdmin || user.superUser){
                 try {
-                    const newShift = await Shift.create(req.body)
+                    const newShift = await Shift.create({...req.body, assignedBy: user.fullName })
                     if(newShift) res.json({message: 'Shift successfully created'})
-                    
+                    console.log('hello')
                 } catch (error) {
                     res.json({message: 'Shift could not be created'})
                 }
@@ -66,9 +67,7 @@ shiftRouter
     
     // delete shifts ----------------------------------------
     .delete('/:id', async (req, res, next) => {
-        try {
-            const user = User.findById(req.body.userId)
-            if(user.isAdmin || user.superUser){
+
                 try {
                     const newShift = await Shift.findByIdAndDelete(req.params.id)
                     if(newShift) res.json({message: 'Shift successfully deleted'})
@@ -76,10 +75,6 @@ shiftRouter
                 } catch (error) {
                     res.json({message: 'Shift could not be deleted'})
                 }
-            }
-        } catch (error) {
-            res.json({message: 'You are not authorized to delete shifts.'})
-        }
         
     })
     

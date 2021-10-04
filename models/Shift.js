@@ -5,7 +5,7 @@ const shiftSchema = mongoose.Schema(
         login: { type: Boolean, default: false },
 
         shiftOption: { 
-            day: { type: String, required: true, trim: true },
+            title: { type: String, required: true, trim: true },
             start: { type: String, required: true, trim: true },
             end: { type: String, required: true, trim: true } 
         },
@@ -20,9 +20,9 @@ const shiftSchema = mongoose.Schema(
 
         approved: { type: Boolean, default: false },
 
-        assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
+        assignedTo: { type: String, required: true, trim: true },
 
-        assignedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
+        assignedBy: { type: String, required: true, trim: true },
 
     }, 
     { timestamps: true }

@@ -61,9 +61,6 @@ announcementRouter
     // delete Announcements ----------------------------------------
     .delete('/:id', async (req, res, next) => {
 
-        try {
-            const user = User.findById(req.body.userId)
-            if(user.isAdmin || user.superUser){
                 try {
                     const newAnn = await Announcement.findByIdAndDelete(req.params.id)
                     if(newAnn) res.json({message: 'Announcement successfully deleted'})
@@ -71,10 +68,7 @@ announcementRouter
                 } catch (error) {
                     res.json({message: 'Announcement could not be deleted'})
                 }
-            }
-        } catch (error) {
-            res.json({message: 'You are not authorized to make delete announcements'})
-        }        
+            
         
     })
 

@@ -6,22 +6,6 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-// all validaiton functions
-const shiftOptions = [
-    {
-        friday: { day: "5", startTime: "18:00:00", endTime: "21:30:00" }
-    },
-    {
-        saturday1: { day: "6", startTime: "09:00:00", endTime: "12:45:00" }
-    },
-    {
-        saturday2: { day: "6", startTime: "12:30:00", endTime: "15:45:00" }
-    },
-    {
-        saturday3: { day: "6", startTime: "15:30:00", endTime: "19:00:00" }
-    },
-];
-
 
 export const getIp = (req) => req.headers['x-forwarded-for']?.split(',')[0] || req.socket?.remoteAddress || req.connection?.remoteAddress || req.ip
 
