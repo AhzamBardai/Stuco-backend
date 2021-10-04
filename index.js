@@ -13,9 +13,10 @@ dotenv.config()
 
 const app = express()
 // add cors origins !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(cors({ origin: 'https://plano-stuco.herokuapp.com/' }))
+app.use(helmet())
+app.use(bodyParser.json({ extended: true, limit: '50mb' }))
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
 
 
 // routes
