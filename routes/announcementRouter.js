@@ -17,17 +17,15 @@ announcementRouter
     // put in socket
     // post -------------------------------------
     .post('/new', async (req, res, next) => {
-
         try {
-            const user = User.findById(req.body.userId)
+            const user = await User.findById({_id: req.body.userId})
             if(user.isAdmin || user.superUser){
-                try {
-                    const newAnn = await Announcement.create(req.body)
-                    if(newAnn) res.json({message: 'Announcement successfully created'})
-                    
-                } catch (error) {
-                    res.json({message: 'Announcement could not be created'})
-                }
+                Announcement.create({...req.body, author: user.fullName, authorImage: user.image })
+                    .then(ann => res.json({message: 'ann made'}))
+                    .catch(() => res.json({message: 'ann not made'}))
+            }
+            else{
+                console.log('hefefeffe')
             }
         } catch (error) {
             res.json({message: 'You are not authorized to make announcements.'})
@@ -36,20 +34,21 @@ announcementRouter
     
     // show one Announcement -----------------------------
     .get('/:id', (req, res, next) => {
-        Announcement.find({_id:req.params.id})
+        Announcement.findById({_id:req.params.id})
             .then(announcement => res.json(announcement))
             .catch(next)
     })
 
     // edit Announcements ---------------------------------------
     .put('/:id', async (req, res, next) => {
+        console.log('hahhaha')
         try {
-            const user = User.findById(req.body.userId)
+            const user = await User.findById(req.body.userId)
+            console.log(user)
             if(user.isAdmin || user.superUser){
                 try {
-                    const newAnn = await Announcement.findByIdAndUpdate({ _id: req.params.id}, req.body, {new: true})
+                    const newAnn = await Announcement.findOneAndUpdate({ _id: req.params.id}, req.body, {new: true})
                     if(newAnn) res.json({message: 'Announcement successfully updated'})
-                    
                 } catch (error) {
                     res.json({message: 'Announcement could not be updated'})
                 }

@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema(
 
         image: { type: String, default: '', trim: true },
 
-        postion: { type: String, default: 'Member', trim: true },
+        position: { type: String, default: 'Member', trim: true },
 
         options: {
             type: Array,

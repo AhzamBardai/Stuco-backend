@@ -31,22 +31,48 @@ export const validateUser = (user) => {
 }
 
 // delete user
-export const deleteUser = (id) => {
-    const message = {}
-    User.findByIdAndDelete(id)
-            .then(() => message = {message: 'Deleted Successfully'})
-            .catch(() => message = {message: 'Could not delete'})
-    return message
+export const deleteUser = async (id) => {
+    try {
+        const deleteUser = await User.findByIdAndDelete({_id: id})
+        if(deleteUser) return {message: 'User deleted'}
+        else return {message: 'User could not be deleted'}
+        
+    } catch (error) {
+        return {message: 'User delete error'}
+    }
+}
+
+// update user
+export const updateUser = async (id, payload) => {
+    try {
+        const update = await User.findByIdAndUpdate({_id: id}, payload, {new: true})
+        if(update) return update
+        else return {message: 'User could not be updated'}
+        
+    } catch (error) {
+        return {message: 'User update error'}
+    }
 }
 
 // check if member
 export const checkMember = async (id) => {
     try {
-        return await User.findById(id).then(user => user ? !user.isAdmin && !user.superUser : 'no user found')
+        return await User.findById(id).then(user => user ? !user.isAdmin && !user.superUser : false)
         
     } catch  {
-        return 'member check error'
+        return false
     }
 }
 
+export const checkAdmin = async (id) => {
+    try {
+        return await User.findById(id).then(user => user ? user.isAdmin && !user.superUser : false)
+        
+    } catch  {
+        return false
+    }
+}
 
+export const permission = () => {
+    return {message: 'You do not have permission to update this user.'}
+}
