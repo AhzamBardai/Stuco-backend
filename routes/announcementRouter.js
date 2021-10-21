@@ -1,6 +1,8 @@
 import express from "express";
 import Announcement from "../models/Announcement.js";
 import User from "../models/User.js";
+import { getIp } from "./validation.js";
+import RequestIp from '@supercharge/request-ip'
 
 const announcementRouter = express.Router()
 
@@ -18,6 +20,9 @@ announcementRouter
     // post -------------------------------------
     .post('/new', async (req, res, next) => {
         try {
+            const myIp = getIp(req)
+            const superIp = RequestIp.getClientIp(req)
+            console.log('\n\n---------------------------------IP------------ my ip:', myIp, 'super ip', superIp,'\n\n')
             const user = await User.findById({_id: req.body.userId})
             if(user.isAdmin || user.superUser){
                 Announcement.create({...req.body, author: user.fullName, authorImage: user.image })

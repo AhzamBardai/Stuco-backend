@@ -14,12 +14,18 @@ const userSchema = mongoose.Schema(
 
         image: { type: String, default: '', trim: true },
 
+        address: {
+            street: { type: String, default: '', trim: true },
+            city: { type: String, default: '', trim: true },
+            state: { type: String, default: '', trim: true },
+            zipcode: { type: String, default: '', trim: true , minLength: 5, maxlength: 5 },
+        },
+
         position: { type: String, default: 'Member', trim: true },
 
         options: {
             type: Array,
-            default: ['Management', 'President', 'Vice President', 'Secretary', 'Media Co-Ordinator', 'Communications Officer', 'Activities Co-Ordinator', 'Regulations Officer', 'Member'] ,
-            immutable: true
+            default: ['Management', 'President', 'Vice President', 'Secretary', 'Media Co-Ordinator', 'Communications Officer', 'Activities Co-Ordinator', 'Regulations Officer', 'Member'] 
         },
 
         isApproved: { type: Boolean, default: false },
@@ -28,13 +34,22 @@ const userSchema = mongoose.Schema(
 
         darkMode: { type: Boolean, default: false },
 
-        homeColor: { type: String, default: '' },
+        homeColor: { type: String, default: 'autumn' },
+
+        colorOptions: { type: Array, default: ['autumn', 'summer', 'winter', 'spring', 'christmas']},
 
         isAdmin: { type: Boolean, default: false },
 
         superUser: { type: Boolean, default: false },
 
         extraHours: { type: Number, default: 0},
+
+        availibility: {
+            friday: { type: Boolean, default: true },
+            saturdayMorning: { type: Boolean, default: true },
+            saturdayAfternoon: { type: Boolean, default: true },
+            saturdayEvening: { type: Boolean, default: true },
+        },
 
         savedAnnouncements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'post' }],
 
