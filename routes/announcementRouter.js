@@ -11,18 +11,15 @@ announcementRouter
     // show all Announcements ----------------------------
     .get('/', (req, res, next) => {
         Announcement.find({})
-            .sort({updatedAt: -1})
-            .then(announcements => res.json(announcements))
-            .catch(next)
+        .sort({updatedAt: -1})
+        .then(announcements => res.json(announcements))
+        .catch(next)
     })
-
+    
     // put in socket
     // post -------------------------------------
     .post('/new', async (req, res, next) => {
         try {
-            const myIp = getIp(req)
-            const superIp = RequestIp.getClientIp(req)
-            console.log('\n\n---------------------------------IP------------ my ip:', myIp, 'super ip', superIp,'\n\n')
             const user = await User.findById({_id: req.body.userId})
             if(user.isAdmin || user.superUser){
                 Announcement.create({...req.body, author: user.fullName, authorImage: user.image })
