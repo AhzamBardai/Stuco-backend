@@ -14,6 +14,8 @@ const userSchema = mongoose.Schema(
 
         image: { type: String, default: '', trim: true },
 
+        contact: { type: String, default: '', trim: true  },
+
         address: {
             street: { type: String, default: '', trim: true },
             city: { type: String, default: '', trim: true },

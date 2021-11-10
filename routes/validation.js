@@ -30,7 +30,7 @@ export const deleteUser = async (id) => {
 export const updateUser = async (id, payload) => {
     try {
         const update = await User.findByIdAndUpdate({_id: id}, payload, {new: true})
-        if(update) return update
+        if(update) return {user: update}
         else return {message: 'User could not be updated'}
         
     } catch (error) {

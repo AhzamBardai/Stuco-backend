@@ -26,6 +26,7 @@ const userRouter = express.Router()
             
             else {
                     const token = jwt.sign({user: user}, process.env.TOKEN_SECRET_KEY, { expiresIn: '15m' })
+                    res.cookie('refresh2', 'ahah', { maxAge: 3000000 })
                     res.json({jwt: token, refresh: user.token})
                 }   
                 
@@ -105,8 +106,9 @@ const userRouter = express.Router()
  
     
     // Update user ------------------------------------------------------
-    userRouter.put('user/:id', (req, res, next) => {
-        res.json(updateUser(req.params.id, req.body))
+    userRouter.put('/:id', async (req, res, next) => {
+        const user = await updateUser(req.params.id, req.body)
+        res.json(user)
         next()
     })
     
